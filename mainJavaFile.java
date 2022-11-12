@@ -51,7 +51,7 @@ public class MainJavaFile {
 
         List<Book> bookList = listOfBooks.subList(0, 10);
         bookList.sort(comparator);
-
+/*
         for (int a = 0; a < 10; a++) {
             Book bookDebug = bookList.get(a);
             System.out.println(bookDebug.name);
@@ -61,7 +61,7 @@ public class MainJavaFile {
             System.out.println(bookDebug.date);
             System.out.println(bookDebug.review);
         }
-
+*/
 
         /* ******************************************************/
 
