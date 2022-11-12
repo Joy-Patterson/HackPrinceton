@@ -4,27 +4,25 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 public class TempVisualGeneration extends Canvas {
 
+    private List<Book> bookList;
 
-    public TempVisualGeneration() {
+    public TempVisualGeneration(List<Book> books) {
+        bookList = books;
         JFrame f = new JFrame();
         f.add(this);
         f.setSize(429, 926);
         f.setVisible(true);
-        
-
     }
 
     //Draw the menu
     public void paint(Graphics g) {
-
-
         setBackground(Color.WHITE);
         BufferedImage menuImg = null;
-
         try {
             menuImg = ImageIO.read(new File("menu.jpg"));
         } catch (IOException e) {
@@ -47,7 +45,7 @@ public class TempVisualGeneration extends Canvas {
 
         try {
             Font menuFontTemp = Font.createFont(Font.TRUETYPE_FONT, new File("menuFont.ttf"));
-            menuFontTitle = menuFontTemp.deriveFont((float) 15.0);
+            menuFontTitle = menuFontTemp.deriveFont((float) 12.0);
             menuFontText = menuFontTemp.deriveFont((float) 10.0);
             g.setFont(menuFontTitle);
         } catch (FontFormatException | IOException e) {
@@ -60,29 +58,50 @@ public class TempVisualGeneration extends Canvas {
         int start = 270;
         for (int i = 0; i < 2; i++) {
             g.setFont(menuFontTitle);
-            drawStringMulti(g, "THRONE OF GLASS ", 15, start + 20 + (i * 140), 15);
-            g.drawString("$$$", 180, start + 20 + (i * 140));
+            drawStringMulti(g, bookList.get(i).name, 15, start + 20 + (i * 140), 15);
             g.setFont(menuFontText);
+            g.drawString("$" + bookList.get(i).pages, 180, start + 20 + (i * 140));
             g.drawString("********************************************", 15, start + (i * 140));
-            drawStringMulti(g, "AUTHOR blah blah blah rating long name very long", 50, start + 60 + (i * 140), 20);
+            drawStringMulti(g, "By: " + bookList.get(i).author, 50, start + 60 + (i * 140), 20);
+            drawStringMulti(g, "Read: " + bookList.get(i).date, 50, start + 70 + (i * 140), 20);
+            drawStringMulti(g, "Rating: " + bookList.get(i).rating + " stars", 50, start + 80 + (i * 140), 20);
         }
+
+
+        try {
+            BufferedImage drawing = null;
+            drawing = ImageIO.read(new File("food.png"));
+            g.drawImage(drawing, 225, 440, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         //Specials Section
         start = 270;
         g.setFont(menuFontTitle);
-        drawStringMulti(g, "THRONE OF GLASS", 15 + 220, start + 20, 15);
+        drawStringMulti(g, bookList.get(2).name, 15 + 220, start + 20, 12);
         g.setFont(menuFontText);
-        drawStringMulti(g, "Quote quote quote i freaking love this book! Also I love ur mom.", 15 + 220, start + 70, 19);
+
+        if (!bookList.get(2).review.equals("")) {
+            drawStringMulti(g, bookList.get(2).review, 15 + 220, start + 70, 19);
+        } else {
+            drawStringMulti(g, "By: " + bookList.get(2).author, 15 + 220, start + 70, 19);
+            drawStringMulti(g, "Read: " + bookList.get(2).date, 15 + 220, start + 80, 19);
+            drawStringMulti(g, "Rating: " + bookList.get(2).rating + " stars", 15 + 220, start + 90, 19);
+        }
 
         //Dinner Section
         start = 605;
         for (int i = 0; i < 3; i++) {
             g.setFont(menuFontTitle);
-            drawStringMulti(g, "THRONE OF GLASS", 15, start + 20 + (i * 90), 30);
-            g.drawString("$$$", 390, start + 20 + (i * 90));
+            drawStringMulti(g, bookList.get(i + 3).name, 15, start + 10 + (i * 90), 40);
             g.setFont(menuFontText);
+            g.drawString("$" + bookList.get(i + 3).pages, 390, start + 10 + (i * 90));
             g.drawString("*****************************************************************************************", 15, start + (i * 90));
-            drawStringMulti(g, "AUTHOR", 50, start + 40 + (i * 90), 50);
+            drawStringMulti(g, "By: " + bookList.get(i + 3).author, 50, start + 40 + (i * 90), 50);
+            drawStringMulti(g, "Read: " + bookList.get(i + 3).date, 50, start + 50 + (i * 90), 50);
+            drawStringMulti(g, "Rating: " + bookList.get(i + 3).rating + " stars", 50, start + 60 + (i * 90), 50);
         }
 
     }
@@ -109,7 +128,6 @@ public class TempVisualGeneration extends Canvas {
     }
 
     public static void main(String[] args) {
-        TempVisualGeneration menu = new TempVisualGeneration();
     }
 
 }
